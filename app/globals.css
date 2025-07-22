@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definiciones @font-face para las fuentes locales */
+@font-face {
+  font-family: "Calcio";
+  src: url("/fonts/Calcio.ttf") format("truetype");
+  font-weight: normal;
+  /* Asumiendo que Calcio es regular */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "The Foregen";
+  src: url("/fonts/The-Foregen-Regular.woff") format("woff");
+  font-weight: normal;
+  /* El archivo es Regular */
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Nobel Uno";
+  src: url("/fonts/NobelUno-Regular.woff2") format("woff2");
+  font-weight: normal;
+  /* El archivo es Regular */
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Paleta Argentina Inspirada en Paisajes */
+  --pasion-humahuaca: #bf2a13;
+  --cafe-jujuy: #570b0a;
+  --crema-punta-indio: #ffedc0;
+  --caminito-radiante: #f2bc57;
+  --turquesa-el-paraiso: #8abfac;
+  --verde-bariloche: #045951;
+
+  /* Gradientes temáticos */
+  --gradient-norte: linear-gradient(135deg, var(--pasion-humahuaca), var(--cafe-jujuy));
+  --gradient-centro: linear-gradient(135deg, var(--caminito-radiante), var(--crema-punta-indio));
+  --gradient-sur: linear-gradient(135deg, var(--turquesa-el-paraiso), var(--verde-bariloche));
+
+  /* Tipografías personalizadas */
+  --font-primary: "The Foregen", serif;
+  /* Para títulos principales */
+  --font-secondary: "Nobel Uno", sans-serif;
+  /* Para cuerpo de texto */
+  --font-display: "Calcio", cursive;
+  /* Para elementos destacados y logo si es texto */
+
+  /* Variables de Shadcn/ui (ajustadas a la paleta Feeltrados) */
+  --background-rgb: 255, 237, 192;
+  /* crema-punta-indio en RGB */
+  --foreground-rgb: 87, 11, 10;
+  /* cafe-jujuy en RGB */
+
+  --background: hsl(45 100% 87%);
+  /* crema-punta-indio */
+  --foreground: hsl(1 80% 19%);
+  /* cafe-jujuy */
+
+  --card: hsl(45 100% 87%);
+  --card-foreground: hsl(1 80% 19%);
+
+  --popover: hsl(45 100% 87%);
+  --popover-foreground: hsl(1 80% 19%);
+
+  --primary: hsl(7 79% 41%);
+  /* pasion-humahuaca */
+  --primary-foreground: hsl(45 100% 87%);
+  /* crema-punta-indio */
+
+  --secondary: hsl(40 87% 65%);
+  /* caminito-radiante */
+  --secondary-foreground: hsl(1 80% 19%);
+  /* cafe-jujuy */
+
+  --muted: hsl(40 87% 65% / 0.5);
+  --muted-foreground: hsl(1 80% 19% / 0.7);
+
+  --accent: hsl(160 30% 65%);
+  /* turquesa-el-paraiso */
+  --accent-foreground: hsl(175 90% 18%);
+  /* verde-bariloche */
+
+  --destructive: hsl(7 79% 41%);
+  --destructive-foreground: hsl(45 100% 87%);
+
+  --border: hsl(40 87% 65% / 0.3);
+  --input: hsl(40 87% 65% / 0.4);
+  --ring: hsl(7 79% 41%);
+
+  --radius: 1rem;
+}
+
+body {
+  @apply bg-crema-punta-indio text-cafe-jujuy font-secondary;
+  background-image: url("/patterns/patron_cuadrille_horizontal.svg");
+  background-repeat: repeat;
+  background-size: auto;
+  /* O un tamaño específico si es necesario, ej: 30px */
+  /* Para dar color al SVG si es negro y no se puede editar:
+   Podríamos usar filter, pero es limitado.
+   Una mejor opción sería tener una versión del SVG que use currentColor
+   o aplicar una capa de color con opacidad encima del body,
+   o usar el SVG como máscara.
+   Por ahora, para simplicidad, si el SVG es negro, se verá negro.
+   Si queremos que el patrón sea de un color de la paleta con opacidad:
+   1. Crear un pseudo-elemento ::before en el body.
+   2. Aplicar el background-image al pseudo-elemento.
+   3. Darle al pseudo-elemento un color de fondo (ej. cafe-jujuy) y una opacidad baja.
+   4. Usar `mix-blend-mode` si es necesario.
+
+   Alternativa más simple si el SVG es negro y queremos que sea sutil:
+   Añadir una capa de color encima del body y luego el patrón encima con opacidad.
+   O, si el SVG es negro, podemos intentar hacerlo más sutil con opacidad directamente
+   en el elemento que lo contiene si no es el body.
+
+   Para un efecto de "canvas detrás", el patrón debe ser sutil.
+   Vamos a intentar con una opacidad en un pseudo-elemento para el body.
+*/
+  position: relative;
+  /* Para el pseudo-elemento */
+  z-index: 0;
+  /* Para el pseudo-elemento */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Pseudo-elemento para el patrón con opacidad */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("/patterns/patron_cuadrille_horizontal.svg");
+  background-repeat: repeat;
+  background-size: 30px 30px;
+  /* Ajusta el tamaño del patrón */
+  opacity: 0.04;
+  /* Opacidad muy reducida para un efecto sutil */
+  z-index: -1;
+  /* Si el SVG es negro y quieres que tome un color de la paleta:
+   Esto es más complejo sin modificar el SVG. Una opción es usarlo como máscara:
+   -webkit-mask-image: url("/patterns/patron_cuadrille_horizontal.svg");
+   mask-image: url("/patterns/patron_cuadrille_horizontal.svg");
+   -webkit-mask-repeat: repeat;
+   mask-repeat: repeat;
+   background-color: var(--cafe-jujuy); // o cualquier color de la paleta
+   opacity: 0.1; // luego ajustar opacidad
+   Para este ejemplo, mantendré la opacidad del SVG tal cual.
+*/
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-primary;
+}
+
+.vintage-text {
+  text-shadow: 2px 2px 4px var(--cafe-jujuy);
+  letter-spacing: 0.5px;
+}
+
+.feeltrados-card {
+  border-radius: 16px;
+  box-shadow: 0 8px 32px hsla(var(--foreground-rgb), 0.1);
+  border: 2px solid hsla(var(--secondary-rgb), 0.2);
+}
+
+.fileteado-border {
+  border-image: linear-gradient(45deg, var(--caminito-radiante), var(--pasion-humahuaca)) 1;
+  border-width: 3px;
+  border-style: solid;
+}
